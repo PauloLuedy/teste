@@ -11,5 +11,3 @@ RUN npm install nodemon -g --quiet
 COPY . . 
 
 EXPOSE 5000
-
-CMD ["npm","start"]
