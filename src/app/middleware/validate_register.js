@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-export function createAccountSchema(req, res, next) {
+export function validateRegister(req, res, next) {
   // create schema object
   const schema = Joi.object({
       name: Joi.string().required(),

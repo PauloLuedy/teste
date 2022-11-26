@@ -1,14 +1,21 @@
-import { userByIdRepository } from "../../core/repositories";
+import { userRepository } from "../../core/repositories";
+import { valdatePassword } from "../../utils/validate_password";
+import { generateToken } from "../../utils/generate_token";
 
-export const login = async ({ params }, res) => {
+export const login = async ({ body }, res) => {
   try {
-    const getUser = await userByIdRepository(params);
+    const { _id, email, password } = await userRepository(body);
 
-    if (getUser == {} || getUser == undefined) {
-      res.json("Login invalido");
+    const validPassword = await valdatePassword(body, password);
+
+    if (validPassword) {
+      res.status(400).json({ error: "Invalid Password" });
     }
-
-    res.json(getUser);
+    if (email == {} || email == undefined) {
+      res.status(500).json({ message: "Login inválido!" });
+    }
+    const token = await generateToken(_id, email);
+    return res.status(201).json({ token });
   } catch (error) {
     throw error;
   }

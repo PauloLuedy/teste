@@ -1,9 +1,8 @@
 import USER from "../model/userSchema";
 
-export const userByIdRepository = async ({id}) => {
+export const userRepository = async (body) => {
   try {
-    console.log(id);
-    const result = await USER.findById(id);
+    const result = await USER.findOne({email: body.email})
     return result;
   } catch (error) {
     return undefined
